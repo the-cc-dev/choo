@@ -284,12 +284,12 @@ Querystrings (e.g. `?foo=bar`) are ignored when matching routes. An object
 containing the key-value mappings exists as `state.query`.
 
 ### Hash routing
-By default hashes are treated as part of the url when routing. Using hashes to
-delimit routes (e.g. `/foo#bar`) can be disabled by setting the `hash`
-[option](#app--chooopts) to `false`. Regardless, when a hash is found we also
-check if there's an available anchor on the same page, and will scroll the
-screen to the position. Using both hashes in URLs and anchor links on the page
-is generally not recommended.
+By default, hashes are ignored when routing. When enabling hash routing
+(`choo({ hash: true })`) hashes will be treated as part of the url, converting
+`/foo#bar` to `/foo/bar`. This is useful if the application is not mounted at
+the website root. Unless hash routing is enabled, if a hash is found we check if
+there's an anchor on the same page, and will scroll the element into view. Using
+both hashes in URLs and anchor links on the page is generally not recommended.
 
 ### Following links
 By default all clicks on `<a>` tags are handled by the router through the
@@ -428,7 +428,7 @@ app.use(function (state, emitter) {
 ### Caching components
 When working with stateful components, one will need to keep track of component
 instances – `state.cache` does just that. The component cache is a function
-which takes a component class and a unique id (`string`) as it's first two
+which takes a component class and a unique id (`string`) as its first two
 arguments. Any following arguments will be forwarded to the component constructor
 together with `state` and `emit`.
 
@@ -534,7 +534,7 @@ Initialize a new `choo` instance. `opts` can also contain the following values:
 - __opts.cache:__ default: `undefined`. Override default class cache used by
   `state.cache`. Can be a a `number` (maximum number of instances in cache,
   default `100`) or an `object` with a [nanolru][nanolru]-compatible API.
-- __opts.hash:__ default: `true`. Treat hashes in URLs as part of the pathname,
+- __opts.hash:__ default: `false`. Treat hashes in URLs as part of the pathname,
   transforming `/foo#bar` to `/foo/bar`. This is useful if the application is
   not mounted at the website root.
 
